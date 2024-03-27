@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>계산기</title>
+</head>
+<body>
+	<h3>Post 요청 1: 로그인 폼</h3>
+	<p>
+		로그인 폼과 같이 id와 password는 노출을 방지하기 위해 post를 사용한다.
+	</p>
+	<form action="login" method="post">
+		아이디: <input type="text" name="id"><br>
+		암호: <input type="password" name="password"><br>
+		<input type="submit" value="로그인">
+	</form>
+
+	<h3>Post 요청 2: form에서 method 속성을 post로 정했을 때</h3>
+	<h1>계산기</h1>
+	<form action="calculator" method="post">
+		<input type="text" name="v1" style="width: 50px">
+		<select name="op">
+			<option value="+">+</option>
+			<option value="-">-</option>
+			<option value="*">*</option>
+			<option value="/">/</option>
+		</select>
+		<input type="text" name="v2" style="width: 50px">
+		<input type="submit" value="=">
+	</form>
+</body>
+</html>
