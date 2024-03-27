@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>계산기</title>
+</head>
+<body>
+	<h3>Get 요청 1: 웹 브라우저의 주소창에 주소를 입력 후 실행할 때</h3>
+
+	<h3>Get 요청 2: 링크 클릭할 때</h3>
+	<p>
+		<a href="https://www.google.com">구글</a><br>
+		<a href="https://www.naver.com">네이버</a><br>
+	</p>
+
+	<h3>Get 요청 3: form에서 method 속성을 get으로 정했을 때</h3>
+	<h1>계산기</h1>
+	<form action="calculator" method="get">
+		<input type="text" name="v1" style="width: 50px">
+		<select name="op">
+			<option value="+">+</option>
+			<option value="-">-</option>
+			<option value="*">*</option>
+			<option value="/">/</option>
+		</select>
+		<input type="text" name="v2" style="width: 50px">
+		<input type="submit" value="=">
+	</form>
+</body>
+</html>
