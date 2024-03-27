@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" version="4.0">
+  <display-name>_5_ServletLifeCycle</display-name>
+  
+  <!-- 
+  		아래의 2가지 설정을 한 번에 해주는 것이 @WebServlet 어노테이션이다.
+  		web.xml은 환경설정 파일이라 서비스 중에 수정이 가능하다는 유연성이 있지만,
+  		생각보다 만들어진 서비스를 사용하는 시간이 길지 않고, 새로운 개발 이슈가 많다 보니
+  		개발자 특성상 간편한 걸 선호하므로 '어노테이션'으로 하는 경향이 많다.
+  -->
+  
+<!-- 서블릿 선언(톰캣이 web.xml을 읽어서, 객체 생성 후 브라우저에서 매핑된 주소가 들어오면 이 객체를 호출한다.) -->
+<servlet>
+	<servlet-name>Hello</servlet-name>
+	<servlet-class>study01.servlets.HelloWorld</servlet-class>
+</servlet>
+
+<!-- 주소와 매핑 -->
+<servlet-mapping>
+	<servlet-name>Hello</servlet-name>
+	<url-pattern>/Hello</url-pattern>
+</servlet-mapping>
+  
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>
