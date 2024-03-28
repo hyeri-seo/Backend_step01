@@ -7,19 +7,19 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import javax.servlet.GenericServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/member/list")
 @SuppressWarnings("serial")
-public class MemberListServlet extends GenericServlet {
+public class MemberListServlet extends HttpServlet {
 
 	@Override
-	public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
+	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		Connection conn = null;		// DB 서버와의 연결 객체
 		Statement stmt = null;		// SQL문
 		ResultSet rs = null;		// Select문의 결과
