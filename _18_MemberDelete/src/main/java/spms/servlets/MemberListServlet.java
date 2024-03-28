@@ -58,7 +58,7 @@ public class MemberListServlet extends HttpServlet {
 						rs.getString("mname") + "</a>, " + 
 						rs.getString("email") + ", " + 
 						rs.getDate("cre_date") + " " +
-						"<a href='update?no=>[삭제]</a>" + "<br>"
+						"<a href='delete?no=" + rs.getInt("mno") + "'>[삭제]</a><br>"
 						);
 			}
 			out.println("</body></html>");
