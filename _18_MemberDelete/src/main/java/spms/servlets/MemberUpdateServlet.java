@@ -62,12 +62,13 @@ public class MemberUpdateServlet extends HttpServlet{
 			out.println("<input type='submit' value='저장'>");
 			out.println("<input type='button' value='취소'" + 
 						" onclick='location.href=\"list\"'>");
-			out.println("<form action='delete' method='post'>");
-			out.println("<input type='button' value='삭제'" + 
-						" onclick='location.href=\"list\"'>");
-			out.println("</form>");
 			out.println("</form>");
 			
+			out.println("<form action='delete' method='post'>");
+			out.println("<input type='button' value='삭제' "
+					+ "onclick='location.href=\"delete?no=" + 
+					req.getParameter("no") + "\";'>");
+			out.println("</form>");			
 			
 			out.println("</body></html>");
 			
