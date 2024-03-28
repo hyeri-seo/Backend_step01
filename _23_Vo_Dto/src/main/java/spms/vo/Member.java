@@ -33,32 +33,37 @@ public class Member {
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
+	public Member setName(String name) {
 		this.name = name;
+		return this;
 	}
 	public String getEmail() {
 		return email;
 	}
-	public void setEmail(String email) {
+	public Member setEmail(String email) {
 		this.email = email;
+		return this;
 	}
 	public String getPassword() {
 		return password;
 	}
-	public void setPassword(String password) {
+	public Member setPassword(String password) {
 		this.password = password;
+		return this;
 	}
 	public Date getCreatedDate() {
 		return createdDate;
 	}
-	public void setCreatedDate(Date createdDate) {
+	public Member setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
+		return this;
 	}
 	public Date getModifiedDate() {
 		return modifiedDate;
 	}
-	public void setModifiedDate(Date modifiedDate) {
+	public Member setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
+		return this;
 	}
 	@Override
 	public String toString() {
