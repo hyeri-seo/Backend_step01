@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -48,29 +49,16 @@ public class MemberUpdateServlet extends HttpServlet{
 			
 			rs.next();
 			
-			resp.setContentType("text/html;charset=UTF-8");
-			PrintWriter out = resp.getWriter();
-			out.println("<html><head><title>회원정보</title></head>");
-			out.println("<body><h1>회원정보</h1>");
-			out.println("<form action='update' method='post'>");
-			out.println("번호: <input type='text' name='no' value='" + 
-						req.getParameter("no") + "' readonly><br>");
-			out.println("이름: <input type='text' name='name'" +
-						" value='" + rs.getString("mname") + "'><br>");
-			out.println("이메일: <input type='text' name='email'" + 
-						" value='" + rs.getString("email") + "'><br>");
-			out.println("가입일: " + rs.getDate("CRE_DATE") + "<br>");
-			out.println("<input type='submit' value='저장'>");
-			out.println("<input type='button' value='삭제' "
-					+ "onclick='location.href=\"delete?no=" + 
-					req.getParameter("no") + "\";'>");
-			out.println("<input type='button' value='취소'" + 
-				" onclick='location.href=\"list\"'>");
-			out.println("</form>");
-			out.println("</body></html>");
+			RequestDispatcher rd = req.getRequestDispatcher(
+					"/member/MemberUpdateForm.jsp");
 			
+			resp.setContentType("text/html;charset=UTF-8");
+			
+			rd.include(req, resp);
 		}catch(Exception e) {
-			throw new ServletException(e);
+			req.setAttribute("error", e);
+			RequestDispatcher rd = req.getRequestDispatcher("/Error.jsp");
+			rd.forward(req, resp);
 		}finally {
 			try {if(rs!=null) rs.close();} catch(Exception e) {}
 			try {if(stmt!=null) stmt.close();} catch(Exception e) {}
@@ -107,7 +95,9 @@ public class MemberUpdateServlet extends HttpServlet{
 			resp.sendRedirect("list");
 			
 		}catch(Exception e) {
-			throw new ServletException(e);
+			req.setAttribute("error", e);
+			RequestDispatcher rd = req.getRequestDispatcher("/Error.jsp");
+			rd.forward(req, resp);
 		}finally {
 			try {if(stmt!=null) stmt.close();} catch(Exception e) {}
 			try {if(conn!=null) conn.close();} catch(Exception e) {}
