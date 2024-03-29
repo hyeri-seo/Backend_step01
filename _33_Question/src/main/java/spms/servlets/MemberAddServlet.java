@@ -89,7 +89,9 @@ public class MemberAddServlet extends HttpServlet{
 			// 위에 처럼 해도 된다.
 			//resp.addHeader("Refresh", "1;url=list");
 		}catch(Exception e) {
-			throw new ServletException(e);
+			req.setAttribute("error", e);
+			RequestDispatcher rd = req.getRequestDispatcher("/Error.jsp");
+			rd.forward(req, resp);
 		}finally {
 			try {if(stmt!=null) stmt.close();} catch(Exception e) {}
 			try {if(conn!=null) conn.close();} catch(Exception e) {}
