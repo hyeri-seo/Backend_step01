@@ -1,4 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page 
+	language="java" 
+	contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -8,21 +10,17 @@
 </head>
 <body>
 
-	<jsp:include page="/Header.jsp" />
+	<jsp:include page="/Header.jsp"/>
 	
-    <h1>회원 등록</h1>
-    
-	<jsp:useBean id="member" 
-				scope="request" 
-				class="spms.vo.Member"
-				type="spms.vo.Member" />
-				
-    <form action="add" method="post">
-        이름 : <input type="text" name="name"><br>
-        이메일 : <input type='text' name='email'><br>
-        암호 : <input type='text' name='password'><br>
-        <input type='submit' value='추가'>
-        <input type='reset' value='취소'>
-    </form>
+	<h1>회원 등록</h1>
+	<form action='add' method='post'>
+		이름: <input type='text' name='name'><br>
+		이메일: <input type='text' name='email'><br>
+		암호: <input type='password' name='password'><br>
+		<input type='submit' value='추가'>
+		<input type='reset' value='취소'>
+	</form>
+	
+	<jsp:include page="/Tail.jsp"/>
 </body>
 </html>

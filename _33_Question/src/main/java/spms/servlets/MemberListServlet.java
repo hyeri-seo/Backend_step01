@@ -114,6 +114,7 @@ public class MemberListServlet extends HttpServlet{
 			*/
 		}catch(Exception e) {
 			//throw new ServletException(e);
+			e.printStackTrace();
 			req.setAttribute("error", e);
 			RequestDispatcher rd = req.getRequestDispatcher("/Error.jsp");
 			rd.forward(req, res);

@@ -11,8 +11,10 @@
 </head>
 <body>
 	<%
+	// forward를 하면 아래 부분이 보여지지 않는다.
 	//<jsp:forward page="/Forward.jsp" />
 	 %>
+	 
 	<jsp:include page="/Header.jsp" />
 
 	<h1>회원 목록</h1>

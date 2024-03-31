@@ -1,7 +1,6 @@
 package spms.servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,6 +14,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import spms.vo.Member;
 
 @WebServlet("/member/update")
 @SuppressWarnings("serial")
@@ -47,15 +48,49 @@ public class MemberUpdateServlet extends HttpServlet{
 			 그러므로 rs.next()를 해야 1번째 행을 가리키고 값을 꺼낼 수가 있다.
 			*/
 			
-			rs.next();
+			if (rs.next()) {
+				req.setAttribute("member", 
+					new Member()
+						.setNo(rs.getInt("MNO"))
+						.setEmail(rs.getString("EMAIL"))
+						.setName(rs.getString("MNAME"))
+						.setCreatedDate(rs.getDate("CRE_DATE")));
+				
+			} else {
+				throw new Exception("해당 번호의 회원을 찾을 수 없습니다.");
+			}
 			
 			RequestDispatcher rd = req.getRequestDispatcher(
 					"/member/MemberUpdateForm.jsp");
+			rd.forward(req, resp);			
+			
+			/*
+			rs.next();
 			
 			resp.setContentType("text/html;charset=UTF-8");
-			
-			rd.include(req, resp);
+			PrintWriter out = resp.getWriter();
+			out.println("<html><head><title>회원정보</title></head>");
+			out.println("<body><h1>회원정보</h1>");
+			out.println("<form action='update' method='post'>");
+			out.println("번호: <input type='text' name='no' value='" + 
+						req.getParameter("no") + "' readonly><br>");
+			out.println("이름: <input type='text' name='name'" +
+						" value='" + rs.getString("mname") + "'><br>");
+			out.println("이메일: <input type='text' name='email'" + 
+						" value='" + rs.getString("email") + "'><br>");
+			out.println("가입일: " + rs.getDate("CRE_DATE") + "<br>");
+			out.println("<input type='submit' value='저장'>");
+			out.println("<input type='button' value='삭제' "
+					+ "onclick='location.href=\"delete?no=" + 
+					req.getParameter("no") + "\";'>");
+			out.println("<input type='button' value='취소'" + 
+				" onclick='location.href=\"list\"'>");
+			out.println("</form>");
+			out.println("</body></html>");
+			*/
 		}catch(Exception e) {
+			//throw new ServletException(e);
+			e.printStackTrace();
 			req.setAttribute("error", e);
 			RequestDispatcher rd = req.getRequestDispatcher("/Error.jsp");
 			rd.forward(req, resp);
@@ -95,6 +130,8 @@ public class MemberUpdateServlet extends HttpServlet{
 			resp.sendRedirect("list");
 			
 		}catch(Exception e) {
+			//throw new ServletException(e);
+			e.printStackTrace();
 			req.setAttribute("error", e);
 			RequestDispatcher rd = req.getRequestDispatcher("/Error.jsp");
 			rd.forward(req, resp);
