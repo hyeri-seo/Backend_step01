@@ -38,33 +38,18 @@ public class MemberAddServlet extends HttpServlet{
 		
 		try {
 			ServletContext sc = this.getServletContext();
-			Class.forName(sc.getInitParameter("driver"));
-			conn = DriverManager.getConnection(
-					sc.getInitParameter("url"),	// JDBC url
-					sc.getInitParameter("username"),								// id
-					sc.getInitParameter("password"));
-//			stmt = conn.prepareStatement(
-//					"INSERT INTO members(email,pwd,mname,cre_date,mod_date)" + 
-//					" VALUES(?,?,?,NOW(),NOW())"
-//					);
-//			stmt.setString(1,  req.getParameter("email"));
-//			stmt.setString(2,  req.getParameter("password"));
-//			stmt.setString(3,  req.getParameter("name"));
-//			stmt.executeUpdate();
-//			resp.sendRedirect("list");
-			
-			// 추가 ----------------------------------------
-			Member member = new Member();
-			member.setEmail(req.getParameter("email"));
-			member.setPassword(req.getParameter("password"));
-			member.setName(req.getParameter("name"));
+			conn = (Connection) sc.getAttribute("conn");
 			
 			MemberDao memberDao = new MemberDao();
-			memberDao.insert(member);
+			memberDao.setConnection(conn);
+			
+			memberDao.insert(new Member()
+							.setEmail(req.getParameter("email"))
+							.setPassword(req.getParameter("password"))
+							.setName(req.getParameter("name")));
 			resp.sendRedirect("list");
 			
 		}catch(Exception e) {
-			//throw new ServletException(e);
 			e.printStackTrace();
 			req.setAttribute("error", e);
 			RequestDispatcher rd = req.getRequestDispatcher("/Error.jsp");
@@ -72,7 +57,6 @@ public class MemberAddServlet extends HttpServlet{
 			
 		}finally {
 			try {if(stmt!=null) stmt.close();} catch(Exception e) {}
-			try {if(conn!=null) conn.close();} catch(Exception e) {}
 		}
 	}
 
