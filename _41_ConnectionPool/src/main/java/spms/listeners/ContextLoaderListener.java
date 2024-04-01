@@ -1,13 +1,11 @@
 package spms.listeners;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import spms.dao.MemberDao;
+import spms.util.DBConnectionPool;
 
 /**
  * 웹 어플리케이션이 실해되었을 때 자동으로 호출되는 클래스
@@ -16,7 +14,8 @@ import spms.dao.MemberDao;
 //@WebListener
 public class ContextLoaderListener implements ServletContextListener {
 	
-	Connection conn;
+//	Connection conn;
+	DBConnectionPool connPool;
 	
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
@@ -24,6 +23,16 @@ public class ContextLoaderListener implements ServletContextListener {
 		try {
 			ServletContext sc = sce.getServletContext();
 			
+			connPool = new DBConnectionPool(
+					sc.getInitParameter("driver"), 
+					sc.getInitParameter("url"), 
+					sc.getInitParameter("username"), 
+					sc.getInitParameter("password")
+					);
+			MemberDao memberDao = new MemberDao();
+			memberDao.setDBConnectionPool(connPool);
+			
+			/*
 			Class.forName(sc.getInitParameter("driver"));
 			conn = DriverManager.getConnection(
 					sc.getInitParameter("url"),
@@ -32,6 +41,7 @@ public class ContextLoaderListener implements ServletContextListener {
 					);
 			MemberDao memberDao = new MemberDao();
 			memberDao.setConnection(conn);
+			*/
 			
 			sc.setAttribute("memberDao", memberDao);
 		} catch(Exception e) {
@@ -43,8 +53,10 @@ public class ContextLoaderListener implements ServletContextListener {
 	public void contextDestroyed(ServletContextEvent sce) {
 		System.out.println("ContextLoaderListener::contextDestoryed() 호출");
 		try {
-			if(conn != null && conn.isClosed() ==false)
-				conn.close();
+			connPool.closeAll();
+			
+//			if(conn != null && conn.isClosed() ==false)
+//				conn.close();
 		} catch(Exception e) {
 			
 		}

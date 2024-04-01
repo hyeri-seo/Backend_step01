@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import spms.util.DBConnectionPool;
 import spms.vo.Member;
 
 /* Dao (Data Access Object)
@@ -13,7 +14,6 @@ import spms.vo.Member;
  * 이 클래스로 만들어진 오브젝트를 Dao라고 부른다.
  * */
 public class MemberDao {
-	Connection connection;
 	
 	private String strSelectList = 
 			"SELECT mno,mname,email,cre_date FROM members ORDER BY mno ASC";
@@ -27,17 +27,35 @@ public class MemberDao {
 			"UPDATE members SET email=?, mname=?, mod_date=NOW() WHERE mno=?";
 	private String strExist = 
 			"SELECT mname, email FROM members WHERE email=? AND pwd=?";
+
+	DBConnectionPool connPool;
+	
+	public void setDBConnectionPool(DBConnectionPool connPool) {
+		this.connPool = connPool;
+	}
+	
+	/*
+	 * Connection 객체 1개로 여러 메서드가 각각의 서블릿에서 호출되면
+	 * rollback시 다른 명령에도 영향을 주어서 취소가 되므로
+	 * 이제 ConnectionPool을 사용해서 독립적인 명령 처리가 되도록 한다.
+	 * 
+	Connection connection;
 	
 	public void setConnection(Connection connection) {
 		this.connection = connection;
 	}
+	*/
 
 	// MemberListServlet에서 필요
 	public List<Member> selectList() throws Exception{
+		Connection connection = null;	// 추가
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
 		try {
+			// 커넥션풀에서 객체를 빌려옴
+			connection = this.connPool.getConnection();	// 추가
+			
 			stmt = connection.prepareStatement(strSelectList);
 			rs = stmt.executeQuery();
 			
@@ -59,11 +77,15 @@ public class MemberDao {
 		}finally {
 			try {if(rs!=null) rs.close();} catch(Exception e) {}
 			try {if(stmt!=null) stmt.close();} catch(Exception e) {}
+			
+			// 커넥션풀에서 빌려온 Connection 객체를 반납함
+			if(connection != null) connPool.returnConnection(connection);
 		}
 	}
 	
 	// MemberAddServlet에서 필요
 	public int insert(Member member) throws Exception{
+		Connection connection = null;
 		PreparedStatement stmt = null;
 		
 		try {
@@ -77,11 +99,13 @@ public class MemberDao {
 			throw e;
 		}finally {
 			try {if(stmt!=null) stmt.close();} catch(Exception e) {}
+			if(connection != null) connPool.returnConnection(connection);
 		}
 	}
 	
 	// MemberDeleteServlet에서 필요
 	public int delete(int no) throws Exception{
+		Connection connection = null;
 		PreparedStatement stmt = null;
 		
 		try {
@@ -93,11 +117,13 @@ public class MemberDao {
 			throw e;
 		}finally {
 			try {if(stmt!=null) stmt.close();} catch(Exception e) {}
+			if(connection != null) connPool.returnConnection(connection);
 		}
 	}
 	
 	// MemberUpdateServlet에서 get요청시 필요
 	public Member selectOne(int no) throws Exception{
+		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
@@ -121,11 +147,13 @@ public class MemberDao {
 		}finally {
 			try {if(rs!=null) rs.close();} catch(Exception e) {}
 			try {if(stmt!=null) stmt.close();} catch(Exception e) {}
+			if(connection != null) connPool.returnConnection(connection);
 		}
 	}
 	
 	// MemberUpdateServlet에서 post요청시 필요
 	public int update(Member member) throws Exception{
+		Connection connection = null;
 		PreparedStatement stmt = null;
 		
 		try {
@@ -140,11 +168,13 @@ public class MemberDao {
 			throw e;
 		}finally {
 			try {if(stmt!=null) stmt.close();} catch(Exception e) {}
+			if(connection != null) connPool.returnConnection(connection);
 		}
 	}
 	
 	// LogInServlet에서 필요
 	public Member exist(String email, String password) throws Exception{
+		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
@@ -167,6 +197,7 @@ public class MemberDao {
 		}finally {
 			try {if(rs!=null) rs.close();} catch(Exception e) {}
 			try {if(stmt!=null) stmt.close();} catch(Exception e) {}
+			if(connection != null) connPool.returnConnection(connection);
 		}
 	}
 }
