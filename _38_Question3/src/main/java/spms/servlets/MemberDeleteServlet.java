@@ -30,25 +30,15 @@ public class MemberDeleteServlet extends HttpServlet {
 
 		try {
 			ServletContext sc = this.getServletContext();
-			Class.forName(sc.getInitParameter("driver"));
-			conn = DriverManager.getConnection(
-						sc.getInitParameter("url"),
-						sc.getInitParameter("username"),
-						sc.getInitParameter("password")); 
-			stmt = conn.createStatement();
-			stmt.executeUpdate(
-					"DELETE FROM members WHERE mno=" + 
-					request.getParameter("no"));
+			conn = (Connection) sc.getAttribute("conn");
 			
-			// 추가 ----------------------------------------
 			MemberDao memberDao = new MemberDao();
+			memberDao.setConnection(conn);
 			memberDao.delete(Integer.parseInt(request.getParameter("no")));
-			// ----------------------------------------
 			
 			response.sendRedirect("list");
 			
 		} catch (Exception e) {
-			//throw new ServletException(e);
 			e.printStackTrace();
 			request.setAttribute("error", e);
 			RequestDispatcher rd = request.getRequestDispatcher("/Error.jsp");
