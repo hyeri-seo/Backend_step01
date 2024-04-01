@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import spms.dao.MemberDao;
+
 @SuppressWarnings("serial")
 @WebServlet("/member/delete")
 public class MemberDeleteServlet extends HttpServlet {
@@ -37,6 +39,11 @@ public class MemberDeleteServlet extends HttpServlet {
 			stmt.executeUpdate(
 					"DELETE FROM members WHERE mno=" + 
 					request.getParameter("no"));
+			
+			// 추가 ----------------------------------------
+			MemberDao memberDao = new MemberDao();
+			memberDao.delete(Integer.parseInt(request.getParameter("no")));
+			// ----------------------------------------
 			
 			response.sendRedirect("list");
 			
