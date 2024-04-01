@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import spms.dao.MemberDao;
 import spms.vo.Member;
 
 @SuppressWarnings("serial")
@@ -41,6 +42,12 @@ public class LogInServlet extends HttpServlet{
 			stmt.setString(1, req.getParameter("email"));
 			stmt.setString(2, req.getParameter("password"));
 			rs = stmt.executeQuery();
+			
+			// 추가 ----------------------------------------
+			MemberDao memberDao = new MemberDao();
+			memberDao.exist(req.getParameter("email"), req.getParameter("password"));
+			// ----------------------------------------
+			
 			// 회원이 존재하면
 			if(rs.next()) {
 				Member member = new Member()
