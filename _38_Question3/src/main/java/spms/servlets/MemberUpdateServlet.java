@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import spms.dao.MemberDao;
+import spms.vo.Member;
 
 @WebServlet("/member/update")
 @SuppressWarnings("serial")
@@ -101,6 +102,16 @@ public class MemberUpdateServlet extends HttpServlet{
 			stmt.setString(2,  req.getParameter("name"));
 			stmt.setInt(3,  Integer.parseInt(req.getParameter("no")));
 			stmt.executeUpdate();
+			
+			// 추가 ----------------------------------------
+			Member member = new Member();
+			member.setEmail(req.getParameter("email"));
+			member.setEmail(req.getParameter("name"));
+			member.setNo(Integer.parseInt(req.getParameter("no")));
+			
+			MemberDao memberDao = new MemberDao();
+			memberDao.update(member);
+			// ----------------------------------------
 			
 			resp.sendRedirect("list");
 			
