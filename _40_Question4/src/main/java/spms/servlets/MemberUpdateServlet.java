@@ -31,10 +31,8 @@ public class MemberUpdateServlet extends HttpServlet{
 		ResultSet rs = null;
 		try {
 			ServletContext sc = this.getServletContext();
-			conn = (Connection) sc.getAttribute("conn");
 			
-			MemberDao memberDao = new MemberDao();
-			memberDao.setConnection(conn);
+			MemberDao memberDao = (MemberDao)sc.getAttribute("memberDao");
 			Member member = memberDao.selectOne(Integer.parseInt(req.getParameter("no")));
 			
 			req.setAttribute("member", member);
