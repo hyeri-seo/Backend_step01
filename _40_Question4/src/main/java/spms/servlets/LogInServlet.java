@@ -29,17 +29,24 @@ public class LogInServlet extends HttpServlet{
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
+//		Connection conn = null;
+//		PreparedStatement stmt = null;
+//		ResultSet rs = null;
 		
 		try {
+			ServletContext sc = this.getServletContext();
+			MemberDao memberDao = (MemberDao)sc.getAttribute("memberDao");
+			/*
 		      ServletContext sc = this.getServletContext();
-		      MemberDao memberDao = (MemberDao)sc.getAttribute("memberDao");
+		      conn = (Connection) sc.getAttribute("conn"); 
+
+		      MemberDao memberDao = new MemberDao();
+		      memberDao.setConnection(conn);
+		      */
+		      
 		      Member member = memberDao.exist(
 		    		  req.getParameter("email"), 
 		    		  req.getParameter("password"));
-		      
 		      if (member != null) {
 		        HttpSession session = req.getSession();
 		        session.setAttribute("member", member);
@@ -49,14 +56,17 @@ public class LogInServlet extends HttpServlet{
 		        RequestDispatcher rd = req.getRequestDispatcher(
 		            "/auth/LogInFail.jsp");
 		        rd.forward(req, resp);
-		      }
+		      }			
 			
 		}catch(Exception e) {
 			
-		}finally {
+		}
+		/*
+		finally {
 			try {if(rs!=null) rs.close();} catch(Exception e) {}
 			try {if(stmt!=null) stmt.close();} catch(Exception e) {}
 		}
+		*/
 	}
 }
 

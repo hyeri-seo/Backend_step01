@@ -2,7 +2,6 @@ package spms.servlets;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.Statement;
 
 import javax.servlet.RequestDispatcher;
@@ -24,11 +23,23 @@ public class MemberDeleteServlet extends HttpServlet {
 			HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		System.out.println("MemberDeleteServlet::doGet() 호출");
+		
+//		Connection conn = null;
+//		Statement stmt = null;
 
 		try {
 			ServletContext sc = this.getServletContext();
-			MemberDao memberDao = (MemberDao) sc.getAttribute("memberDao");		
-			memberDao.delete(Integer.parseInt(request.getParameter("no")));
+			MemberDao memberDao = (MemberDao)sc.getAttribute("memberDao");
+			/*
+		      ServletContext sc = this.getServletContext();
+		      conn = (Connection) sc.getAttribute("conn"); 
+
+		      MemberDao memberDao = new MemberDao();
+		      memberDao.setConnection(conn);
+		    */   
+			
+		      memberDao.delete(Integer.parseInt(request.getParameter("no")));			
+			
 			response.sendRedirect("list");
 			
 		} catch (Exception e) {
@@ -37,6 +48,12 @@ public class MemberDeleteServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/Error.jsp");
 			rd.forward(request, response);
 			
+		} 
+		/*
+		finally {
+			try {if (stmt != null) stmt.close();} catch(Exception e) {}
+			//try {if (conn != null) conn.close();} catch(Exception e) {}
 		}
+		*/
 	}
 }
