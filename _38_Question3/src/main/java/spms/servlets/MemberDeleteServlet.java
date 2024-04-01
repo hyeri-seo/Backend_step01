@@ -46,7 +46,6 @@ public class MemberDeleteServlet extends HttpServlet {
 			
 		} finally {
 			try {if (stmt != null) stmt.close();} catch(Exception e) {}
-			try {if (conn != null) conn.close();} catch(Exception e) {}
 		}
 
 	}
