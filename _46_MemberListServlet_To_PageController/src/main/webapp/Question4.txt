@@ -1,0 +1,11 @@
+
+MemberListServlet을 기존의 conn -> memberDao를 꺼내서 사용하는 방식으로 교체했다.
+아래 모두 이와같은 방식으로 변경하세요
+
+1. MemberAddServlet 클래스 변경
+
+2. MemberUpdateServlet 클래스 변경
+
+3. MemberDeleteServlet 클래스 변경
+
+4. LogInServlet 클래스 변경
