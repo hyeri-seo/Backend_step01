@@ -85,6 +85,11 @@ public class DispatcherServlet extends HttpServlet{
 													+ pageController.getClass().getName());
 				viewUrl = pageController.execute(model);
 				
+				/**
+				 * pageController.execute(model) 내에서 처리된 결과 정보가 model에 들어있다.
+				 * 다음 화면 구성을 위해 jsp 보내는 경우 jsp는 req를 통해서 데이터를 전달받기 때무에
+				 * model에 있는 처리 결과 정보를 꺼내서 다시 req에 담는다.
+				 */
 				for(String key : model.keySet()) {
 					req.setAttribute(key, model.get(key));
 				}
