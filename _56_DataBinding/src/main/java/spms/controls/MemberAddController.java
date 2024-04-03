@@ -18,7 +18,9 @@ public class MemberAddController implements Controller, DataBinding {
 
 	@Override
 	public Object[] getDataBinders() {
-		return null;
+		return new Object[] {
+				"member", spms.vo.Member.class
+		};
 	}
 	
 	@Override
