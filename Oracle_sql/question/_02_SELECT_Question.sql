@@ -11,8 +11,7 @@ SELECT result FROM SCORE;
 SELECT major, syear FROM student;
 
 --10) 각 과목의 이름과 학점을 검색해라
-SELECT cname FROM COURSE;
-SELECT grade FROM scgrade;
+SELECT cname, st_num FROM COURSE;
 
 --11) 모든 교수의 직위를 검색해라
 SELECT orders FROM professor;
