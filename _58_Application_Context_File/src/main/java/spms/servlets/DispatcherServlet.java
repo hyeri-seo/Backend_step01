@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import spms.bind.DataBinding;
 import spms.bind.ServletRequestDataBinder;
+import spms.context.ApplicationContext;
 import spms.controls.Controller;
+import spms.listeners.ContextLoaderListener;
 
 @SuppressWarnings("serial")
 @WebServlet("*.do")
@@ -54,7 +56,12 @@ public class DispatcherServlet extends HttpServlet {
 				model.put("session", req.getSession());
 		
 				// 해당 주소와 일치하는 클래스 객체를 꺼내온다.
-				Controller pageController = (Controller) this.getServletContext().getAttribute(servletPath);
+				ApplicationContext ctx = ContextLoaderListener.getApplicationContext();
+				Controller pageController = (Controller)ctx.getBean(servletPath);
+				if(pageController == null) {
+					throw new Exception("요청한 Controller 객체를 찾을 수 없어서, 서비스 제공 불가");
+				}
+				// Controller pageController = (Controller) this.getServletContext().getAttribute(servletPath);
 					
 				if(pageController instanceof DataBinding) {
 					prepareRequestData(req, model, (DataBinding)pageController);

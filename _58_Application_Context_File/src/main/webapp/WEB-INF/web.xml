@@ -7,26 +7,15 @@
 
 	<!-- 컨텍스트 초기화 파라미터 컨텍스트 : Web Application, 전체가 공유하는 영역 -->
 	<context-param>
-		<param-name>driver</param-name>
-		<param-value>com.mysql.cj.jdbc.Driver</param-value>
-	</context-param>
-	<context-param>
-		<param-name>url</param-name>
-		<param-value>jdbc:mysql://localhost:4306/studydb</param-value>
-	</context-param>
-	<context-param>
-		<param-name>username</param-name>
-		<param-value>study</param-value>
-	</context-param>
-	<context-param>
-		<param-name>password</param-name>
-		<param-value>study</param-value>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>WEB-INF/application-context.properties</param-value>
 	</context-param>
 	
-	<!-- 리스너 선언 -->
+	<!-- 리스너 선언
 	<listener>
 		<listener-class>spms.listeners.ContextLoaderListener</listener-class>
 	</listener>
+	 -->
 	
 	<!-- 필터 선언 -->
 	
