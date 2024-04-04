@@ -60,38 +60,6 @@ public class DispatcherServlet extends HttpServlet {
 					prepareRequestData(req, model, (DataBinding)pageController);
 				}
 				
-				/* 아래 대신 Reflection을 사용해서 자동화 처리할 예정
-				if ("/member/list.do".equals(servletPath)) {
-					// pageController = new MemberListController();
-				} else if ("/member/add.do".equals(servletPath)) {
-					// pageController = new MemberAddController();
-					if (req.getParameter("email") != null) {
-						model.put("member", new Member().setEmail(req.getParameter("email"))
-								.setPassword(req.getParameter("password")).setName(req.getParameter("name")));
-					}
-	
-				} else if ("/member/update.do".equals(servletPath)) {
-					// pageController = new MemberUpdateController();
-					if (req.getParameter("email") != null) {
-						model.put("member", new Member().setNo(Integer.parseInt(req.getParameter("no")))
-								.setEmail(req.getParameter("email")).setName(req.getParameter("name")));
-					} else {
-						model.put("no", Integer.parseInt(req.getParameter("no")));
-					}
-				} else if ("/member/delete.do".equals(servletPath)) {
-					// pageController = new MemberDeleteController();
-					model.put("no", Integer.parseInt(req.getParameter("no")));
-				} else if ("/auth/login.do".equals(servletPath)) {
-					// pageController = new LogInController();
-					if (req.getParameter("email") != null) {
-						model.put("loginInfo",
-								new Member().setEmail(req.getParameter("email")).setPassword(req.getParameter("password")));
-					}
-				} else if ("/auth/logout.do".equals(servletPath)) {
-					// pageController = new LogOutController();
-				}
-				*/
-
 				System.out.println("DispatchServlet::service() - pageController=" + pageController.getClass().getName());
 				String viewUrl = pageController.execute(model);
 	
