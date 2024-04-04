@@ -5,9 +5,14 @@ import java.lang.reflect.Method;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+
+import org.reflections.Reflections;
+
+import spms.annotation.Component;
 
 // application-context.properties 파일을 읽어서 필요한 객체를 준비/저장
 // @Component 어노테이션을 읽어서 자동으로 객체 준비/저장
@@ -31,7 +36,14 @@ public class ApplicationContext {
 	}
 	
 	private void prepareAnnotationObjects() throws Exception {
+		Reflections reflector = new Reflections("");
 		
+		Set<Class<?>> list = reflector.getTypesAnnotatedWith(Component.class);
+		String key = null;
+		for(Class<?> clazz : list) {
+			key = clazz.getAnnotation(Component.class).value();
+			objTable.put(key, clazz.getDeclaredConstructor().newInstance());
+		}
 	}
 	
 	// properties 파일을 읽어서 객체를 참조하거나 생성함
