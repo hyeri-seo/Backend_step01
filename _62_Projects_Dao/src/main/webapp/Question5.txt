@@ -1,0 +1,16 @@
+
+1. MemberUpdateServlet.java를 PageController로 변경
+
+2. MemberUpdateForm.jsp에 있는 링크에 .do를 붙임
+
+3. MemberDeleteServlet.java를 PageController로 변경
+
+4. LogInServlet.java를 PageController로 변경
+
+5. LogInForm.jsp의 링크에 .do를 붙임
+
+6. LogInFail.jsp의 링크에 .do를 붙임
+
+7. LogOutServlet.java를 PageController로 변경
+
+8. Header.jsp페이지에 있는 링크를 .do를 붙임
