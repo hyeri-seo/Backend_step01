@@ -9,26 +9,44 @@ e2 : 관리자 테이블
 WHERE e1.mgr=e2.eno : 사원의 관리자 = 관리자 사번
 ; e1의 매니저는 e2의 어떤 사원이니?
 
+SELECT mgr, eno, ename 
+FROM emp;
 
+-- 테이블에 별명을 줄 수 있다.
+SELECT e.dno, d.dname, e.eno, e.ename
+FROM emp e, dept d 
+WHERE e.dno = d.dno;
 
+-- 자기 참조 조인은 반드시 별명이 필요하다.
+SELECT m.eno "매니저 사번", m.ename "매니저명", e.eno "사원번호", e.ename "사원명" 
+FROM emp e, emp m 
+WHERE e.mgr = m.eno;
 
 
 [Outer Join - 외부 조인]
 2) 각 부서별로 사원을 검색한다
  일반 조인
  
-
+SELECT d.dno, dname, eno, ename 
+FROM emp e, dept d 
+WHERE e.dno = d.dno 
+ORDER BY d.dno;
 
 
 
 --7개 부서가 존재
-
+SELECT dno, dname 
+FROM dept;
 
 --모든 사원들은 6개 부서에 소속
-
+SELECT DISTINCT dno 
+FROM emp;
 
 --1개 부서(POS)는 사원이 없다
-
+SELECT d.dno, d.dname, e.eno, e.ename
+FROM emp e, dept d 
+WHERE e.dno = d.dno 
+AND d.dname = 'POS';
 
  외부 조인(Outer Join)
 ex) 부서는 존재하지만 소속부서원이 없는 경우
@@ -48,12 +66,32 @@ ex) 부서는 존재하지만 소속부서원이 없는 경우
 
 부서는 존재하나 부서에 소속된 사원이 없으므로
 부서 정보에 대응되는 사원쪽에 null 값을 추가(+) 하겠다.
+부서는 다 보여주고, 사원에 null을 추가
 
+SELECT d.dno, d.dname, e.eno, e.ename 
+FROM emp e, dept d 
+WHERE e.dno (+)= d.dno 
+ORDER BY d.dno;
 
+SELECT d.dno, d.dname, e.eno, e.ename 
+FROM emp e 
+RIGHT OUTER JOIN dept d 
+ON e.dno = d.dno 
+ORDER BY d.dno;
 
+사원은 있지만 배정되지 않은 사원이 존재할 때
+SELECT d.dno, d.dname, e.eno, e.ename 
+FROM emp e, dept d 
+WHERE e.dno = d.dno (+) 
+ORDER BY d.dno;
 
+SELECT d.dno, d.dname, e.eno, e.ename 
+FROM emp e 
+LEFT OUTER JOIN dept d 
+ON e.dno = d.dno 
+ORDER BY d.dno;
 
-
+INSERT INTO emp (ename) VALUES ('트럼프');
 
 
 
