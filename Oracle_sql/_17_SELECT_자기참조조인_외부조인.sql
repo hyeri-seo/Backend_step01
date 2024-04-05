@@ -79,7 +79,10 @@ RIGHT OUTER JOIN dept d
 ON e.dno = d.dno 
 ORDER BY d.dno;
 
+-----------------------------------------------------
+
 사원은 있지만 배정되지 않은 사원이 존재할 때
+
 SELECT d.dno, d.dname, e.eno, e.ename 
 FROM emp e, dept d 
 WHERE e.dno = d.dno (+) 
