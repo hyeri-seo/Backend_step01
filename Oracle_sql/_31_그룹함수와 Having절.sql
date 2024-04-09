@@ -26,12 +26,11 @@ ORDER BY 정렬 대상;
 
 
 1) 부서별로 평균급여가 3000이상인 부서만 출력하세요
-SELECT dno 부서번호, ROUND(AVG(sal)) 평균급여
-FROM emp 
-GROUP BY dno;
+SELECT dno, ROUND(AVG(sal))
+ FROM emp
+ WHERE ROUND(AVG(sal)) >= 3000
+ GROUP BY dno;   -- 에러 발생
  
--- 에러 발생
-
 
 그룹함수 조건은 WHERE 절에 사용할 수 없다
 
@@ -41,38 +40,58 @@ GROUP BY dno;
 조건 비교가 가능하다.
 그러므로 WHERE 절보다 HAVING 절의 조건비교가 늦게 된다.
 
+SELECT dno, ROUND(AVG(sal))
+ FROM emp
+ GROUP BY dno
+ HAVING ROUND(AVG(sal)) >= 3000;
 
 
 2) 20번 부서가 아니면서 평균급여가 3000이상인 부서만 출력하세요
 
 --일반 컬럼의 조건을 HAVING 절에 사용하는 것은 권장하지 않는다.
-
+SELECT dno, ROUND(AVG(sal))
+ FROM emp
+ GROUP BY dno
+ HAVING dno!='20' AND ROUND(AVG(sal)) >= 3000;
  
 --일반 조건은 WHERE 절에 기술한다
-
+SELECT dno, ROUND(AVG(sal))
+ FROM emp
+ WHERE dno!='20'
+ GROUP BY dno
+ HAVING ROUND(AVG(sal)) >= 3000;
 
 
 
 1)GROUP BY 절에 따른 그룹 함수 결과 값의 변화
-SELECT dno, ROUND(AVG(sal)) 
-FROM emp 
-GROUP BY dno;
+SELECT dno, ROUND(AVG(sal))
+ FROM emp
+ GROUP BY dno;
+
+SELECT job, ROUND(AVG(sal))
+ FROM emp
+ GROUP BY job;
+
 
 2) 부서별 급여 평균이 3천 달러 미만인 부서의 부서번호와
 평균 급여를 검색한다
+
 SELECT dno, dname, ROUND(AVG(sal))
-FROM emp 
-JOIN dept USING(dno) 
-GROUP BY dno, dname 
-HAVING ROUND(AVG(sal)) < 3000;
+ FROM emp
+ JOIN dept USING(dno)
+ GROUP BY dno, dname
+ HAVING ROUND(AVG(sal)) < 3000;
+
 
 
 
 
 3) 개발 업무가 아닌 부서별 인원수를 검색하세요
-SELECT dno, COUNT(*) 
-FROM emp 
-GROUP BY dno, job;
+
+SELECT dno, COUNT(*)
+ FROM emp
+ WHERE job!='개발'
+ GROUP BY dno;
 
 
 
